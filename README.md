@@ -16,7 +16,7 @@ Erstelle dein eigenes Kennzeichen mit echten Stadtcodes – ideal zum Lachen, Te
 
 ## 🚀 Live-Demo
 
-👉 [Hier geht's zur Website](https://jdl088.github.io/kennzeichen-configurator)
+👉 [Hier geht's zur Website](https://jdl088.github.io/Kennzeichen-configurator)
 
 ## 🛠️ Installation & Entwicklung
 
