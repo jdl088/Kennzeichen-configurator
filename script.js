@@ -8,6 +8,7 @@ body {
   margin: 0;
   padding: 1rem;
 }
+
 main {
   background: white;
   padding: 2rem;
@@ -17,11 +18,13 @@ main {
   max-width: 500px;
   width: 100%;
 }
+
 input, select, button {
   margin: 0.5rem;
   padding: 0.5rem;
   font-size: 1rem;
 }
+
 #funny-btn {
   background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
   color: white;
@@ -31,17 +34,21 @@ input, select, button {
   font-weight: bold;
   transition: transform 0.2s;
 }
+
 #funny-btn:hover {
   transform: scale(1.05);
 }
+
 #resultat {
   margin-top: 1rem;
   min-height: 40px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
+/* EU-Kennzeichen Styles */
 .kennzeichen {
   background: white;
   border: 3px solid #000;
@@ -55,6 +62,7 @@ input, select, button {
   min-width: 300px;
   position: relative;
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  margin: 10px 0;
 }
 
 .kennzeichen .eu-stripe {
@@ -90,6 +98,7 @@ input, select, button {
   letter-spacing: 3px;
 }
 
+/* Funny Button Animation */
 .funny-result .kennzeichen {
   animation: bounce 0.5s;
 }
@@ -102,6 +111,7 @@ input, select, button {
   font-family: sans-serif;
   font-weight: normal;
 }
+
 @keyframes bounce {
   0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
   40% { transform: translateY(-10px); }
