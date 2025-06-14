@@ -16,12 +16,12 @@ Erstelle dein eigenes Kennzeichen mit echten Stadtcodes – ideal zum Lachen, Te
 
 ## 🚀 Live-Demo
 
-👉 [Hier geht's zur Website](https://jdl088.github.io/kennzeichen-configurator/)
+👉 [Hier geht's zur Website](https://jdl088.github.io/kennzeichen-configurator)
 
 ## 🛠️ Installation & Entwicklung
 
 1. Repository klonen:
 
 ```bash
-git clone https://github.com/<DEIN_USERNAME>/kennzeichen-configurator.git
+git clone https://github.com/jdl088/kennzeichen-configurator.git
 cd kennzeichen-configurator
