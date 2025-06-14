@@ -9,9 +9,26 @@
   <main>
     <h1>Kennzeichen Konfigurator</h1>
     <form id="config-form">
-      <select id="stadtcode"></select>
-      <input type="text" id="buchstaben" maxlength="2" placeholder="AB">
-      <input type="text" id="zahlen" maxlength="4" placeholder="1234">
+      <select id="stadtcode">
+        <option value="">Stadt wählen...</option>
+        <option value="B">Berlin</option>
+        <option value="M">München</option>
+        <option value="HH">Hamburg</option>
+        <option value="K">Köln</option>
+        <option value="F">Frankfurt</option>
+        <option value="S">Stuttgart</option>
+        <option value="D">Düsseldorf</option>
+        <option value="DO">Dortmund</option>
+        <option value="E">Essen</option>
+        <option value="L">Leipzig</option>
+        <option value="DD">Dresden</option>
+        <option value="H">Hannover</option>
+        <option value="N">Nürnberg</option>
+        <option value="DU">Duisburg</option>
+        <option value="BO">Bochum</option>
+      </select>
+      <input type="text" id="buchstaben" maxlength="2" placeholder="AB" style="text-transform: uppercase;">
+      <input type="text" id="zahlen" maxlength="4" placeholder="1234" pattern="[0-9]*">
       <button type="submit">Erstellen</button>
     </form>
     <button id="funny-btn" type="button">Funny Kennzeichen :)</button>
