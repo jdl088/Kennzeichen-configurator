@@ -98,7 +98,62 @@ function validateZahlen() {
 function generateKennzeichen() {
   const code = `${feldStadt.value}-${feldBuchstaben.value} ${feldZahlen.value}`;
   ausgabe.textContent = code;
-  img.src = `https://api.example.com/kennzeichen?stadt=${feldStadt.value}&buchstaben=${feldBuchstaben.value}&zahlen=${feldZahlen.value}`;
+  
+  // Canvas-basierte Kennzeichen-Visualisierung
+  const canvas = document.createElement('canvas');
+  canvas.width = 520;
+  canvas.height = 110;
+  const ctx = canvas.getContext('2d');
+  
+  // Weißer Hintergrund
+  ctx.fillStyle = 'white';
+  ctx.fillRect(0, 0, 520, 110);
+  
+  // Schwarzer Rand
+  ctx.strokeStyle = 'black';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(1, 1, 518, 108);
+  
+  // Blauer EU-Balken links
+  ctx.fillStyle = '#003d82';
+  ctx.fillRect(1, 1, 45, 108);
+  
+  // EU-Sterne (vereinfacht als Punkte)
+  ctx.fillStyle = 'yellow';
+  for(let i = 0; i < 12; i++) {
+    const angle = (i * 30) * Math.PI / 180;
+    const x = 23 + Math.cos(angle) * 12;
+    const y = 35 + Math.sin(angle) * 12;
+    ctx.beginPath();
+    ctx.arc(x, y, 1.5, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+  
+  // "D" für Deutschland
+  ctx.fillStyle = 'white';
+  ctx.font = 'bold 16px Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText('D', 23, 85);
+  
+  // Kennzeichen-Text
+  ctx.fillStyle = 'black';
+  ctx.font = 'bold 32px Arial';
+  ctx.textAlign = 'left';
+  
+  // Stadtcode
+  ctx.fillText(feldStadt.value, 60, 60);
+  
+  // Bindestrich und Buchstaben
+  const stadtWidth = ctx.measureText(feldStadt.value).width;
+  ctx.fillText('-' + feldBuchstaben.value, 60 + stadtWidth + 5, 60);
+  
+  // Zahlen
+  const buchstabenWidth = ctx.measureText('-' + feldBuchstaben.value).width;
+  ctx.fillText(feldZahlen.value, 60 + stadtWidth + buchstabenWidth + 20, 60);
+  
+  // Bild setzen
+  img.src = canvas.toDataURL();
+  img.style.display = 'block';
 }
 
 // 5) Event-Listener
