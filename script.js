@@ -48,14 +48,15 @@ const validCodes = [
 ];
 
 // 2) Referenzen zu den Eingabefeldern
-const feldStadt = document.getElementById('stadtcode');
+const feldStadt      = document.getElementById('stadtcode');
 const feldBuchstaben = document.getElementById('buchstaben');
-const feldZahlen = document.getElementById('zahlen');
-const form = document.getElementById('config-form');
-const btnZufall = document.getElementById('zufall-button');
-const btnErstellen = document.getElementById('erstellen-btn');
-const ausgabe = document.getElementById('resultat');
-const img = document.getElementById('kennzeichen-img');
+const feldZahlen     = document.getElementById('zahlen');
+const form           = document.getElementById('config-form');
+// IDs updated:
+const btnFunny  = document.getElementById('funny-btn');
+const btnCreate = document.getElementById('create-btn');
+const ausgabe   = document.getElementById('resultat');
+const img       = document.getElementById('kennzeichen-img');
 
 // 3) Validierungsfunktionen
 function validateStadtcode() {
@@ -65,8 +66,9 @@ function validateStadtcode() {
     feldStadt.setCustomValidity('');
     feldStadt.style.borderColor = 'green';
   } else {
-    feldStadt.setCustomValidity('Ungültiges Kürzel');
+    feldStadt.setCustomValidity('Diese Stadt gibt es nicht!');
     feldStadt.style.borderColor = 'red';
+    feldStadt.reportValidity();
   }
 }
 function validateBuchstaben() {
@@ -96,7 +98,6 @@ function validateZahlen() {
 function generateKennzeichen() {
   const code = `${feldStadt.value}-${feldBuchstaben.value} ${feldZahlen.value}`;
   ausgabe.textContent = code;
-  // Beispiel: Bild-URL mit Parametern aufbauen
   img.src = `https://api.example.com/kennzeichen?stadt=${feldStadt.value}&buchstaben=${feldBuchstaben.value}&zahlen=${feldZahlen.value}`;
 }
 
@@ -116,11 +117,11 @@ form.addEventListener('submit', e => {
   generateKennzeichen();
 });
 
-btnZufall.addEventListener('click', () => {
-  // Zufall: Kürzel, Buchstaben und Zahlen wählen
-  feldStadt.value = validCodes[Math.floor(Math.random() * validCodes.length)];
-  feldBuchstaben.value = String.fromCharCode(65 + Math.floor(Math.random()*26));
-  feldZahlen.value = String(Math.floor(Math.random()*9000) + 1000);
+// Zufallskennzeichen jetzt auf #funny-btn
+btnFunny.addEventListener('click', () => {
+  feldStadt.value      = validCodes[Math.floor(Math.random() * validCodes.length)];
+  feldBuchstaben.value = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+  feldZahlen.value     = String(Math.floor(Math.random() * 9000) + 1);
   validateStadtcode(); validateBuchstaben(); validateZahlen();
   generateKennzeichen();
 });
