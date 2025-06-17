@@ -3,37 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <title>Kennzeichen Konfigurator</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css"> <!-- unverändert :contentReference[oaicite:0]{index=0} -->
 </head>
 <body>
   <main>
     <h1>Kennzeichen Konfigurator</h1>
     <form id="config-form">
-      <select id="stadtcode">
-        <option value="">Stadt wählen...</option>
-        <option value="B">Berlin</option>
-        <option value="M">München</option>
-        <option value="HH">Hamburg</option>
-        <option value="K">Köln</option>
-        <option value="F">Frankfurt</option>
-        <option value="S">Stuttgart</option>
-        <option value="D">Düsseldorf</option>
-        <option value="DO">Dortmund</option>
-        <option value="E">Essen</option>
-        <option value="L">Leipzig</option>
-        <option value="DD">Dresden</option>
-        <option value="H">Hannover</option>
-        <option value="N">Nürnberg</option>
-        <option value="DU">Duisburg</option>
-        <option value="BO">Bochum</option>
-      </select>
-      <input type="text" id="buchstaben" maxlength="2" placeholder="AB" style="text-transform: uppercase;">
-      <input type="text" id="zahlen" maxlength="4" placeholder="1234" pattern="[0-9]*">
-      <button type="submit">Erstellen</button>
+      <!-- statt Dropdown: freies Textfeld für Stadt-/Landkreis-Kürzel -->
+      <input type="text" id="stadtcode" maxlength="3" placeholder="Kürzel z.B. B, M, AIC">
+      <input type="text" id="buchstaben" maxlength="2" placeholder="AB">
+      <input type="text" id="zahlen" maxlength="4" placeholder="1234">
+      <button type="submit" id="erstellen-btn">Erstellen</button>
+      <button type="button" id="zufall-button">Zufallskennzeichen</button>
     </form>
-    <button id="funny-btn" type="button">Funny Kennzeichen :)</button>
     <div id="resultat"></div>
+    <img id="kennzeichen-img" src="" alt="Kennzeichen-Vorschau" style="margin-top:1rem; max-width: 100%;">
   </main>
-  <script src="script.js"></script>
+  <script src="script.js"></script> <!-- wird angepasst -->
 </body>
 </html>
