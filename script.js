@@ -52,8 +52,8 @@ const feldStadt      = document.getElementById('stadtcode');
 const feldBuchstaben = document.getElementById('buchstaben');
 const feldZahlen     = document.getElementById('zahlen');
 const form           = document.getElementById('config-form');
-// IDs updated:
-const btnFunny  = document.getElementById('funny-btn');
+// Konsistente Benennung:
+const btnZufall = document.getElementById('zufall-btn');
 const btnCreate = document.getElementById('create-btn');
 const ausgabe   = document.getElementById('resultat');
 const img       = document.getElementById('kennzeichen-img');
@@ -117,8 +117,8 @@ form.addEventListener('submit', e => {
   generateKennzeichen();
 });
 
-// Zufallskennzeichen jetzt auf #funny-btn
-btnFunny.addEventListener('click', () => {
+// Zufallskennzeichen - konsistente Benennung
+btnZufall.addEventListener('click', () => {
   feldStadt.value      = validCodes[Math.floor(Math.random() * validCodes.length)];
   feldBuchstaben.value = String.fromCharCode(65 + Math.floor(Math.random() * 26));
   feldZahlen.value     = String(Math.floor(Math.random() * 9000) + 1);
