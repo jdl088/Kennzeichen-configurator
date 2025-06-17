@@ -39,7 +39,7 @@ input, select, button {
 }
 
 /* Styling für den Zufallskennzeichen-Button */
-#funny-btn {
+#zufall-btn {
   background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
   color: white;
   border: none;
@@ -48,7 +48,7 @@ input, select, button {
   font-weight: bold;
   transition: transform 0.2s;
 }
-#funny-btn:hover {
+#zufall-btn:hover {
   transform: scale(1.05);
 }
 
