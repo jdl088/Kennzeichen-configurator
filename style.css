@@ -51,23 +51,6 @@ input, select, button {
 #zufall-btn:hover {
   transform: scale(1.05);
 }
-
-#resultat {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: white;
-  border: 3px solid #003d82;
-  border-radius: 8px;
-  min-height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Courier New', monospace;
-  font-size: 2rem;
-  font-weight: bold;
-  color: black;
-  letter-spacing: 2px;
-}
 .funny-result {
   background: white;
   border: 3px solid #ff6b6b;
