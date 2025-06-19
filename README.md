@@ -12,7 +12,7 @@ Erstelle dein eigenes Fake-Kennzeichen mit echten Stadtcodes – ideal zum Lache
 
 ## 🖼 Vorschau
 
-![IMG_7059](https://github.com/user-attachments/assets/e0ccd9d7-1170-4bf1-aaf0-9ecadc252872)
+![IMG_7059_klein](https://github.com/user-attachments/assets/b1b5f370-5526-43aa-9c99-9a9c7216be08)
 
 ## 🚀 Live-Demo
 
