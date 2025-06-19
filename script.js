@@ -55,7 +55,6 @@ const form           = document.getElementById('config-form');
 // Konsistente Benennung:
 const btnZufall = document.getElementById('zufall-btn');
 const btnCreate = document.getElementById('create-btn');
-const ausgabe   = document.getElementById('resultat');
 const img       = document.getElementById('kennzeichen-img');
 
 // 3) Validierungsfunktionen
@@ -97,7 +96,6 @@ function validateZahlen() {
 // 4) Kennzeichen-Vorschau erzeugen
 function generateKennzeichen() {
   const code = `${feldStadt.value}-${feldBuchstaben.value} ${feldZahlen.value}`;
-  ausgabe.textContent = code;
   
   // Canvas-basierte Kennzeichen-Visualisierung
   const canvas = document.createElement('canvas');
