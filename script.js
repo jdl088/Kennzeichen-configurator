@@ -1,6 +1,6 @@
-// script.js
+// script.js - Optimierte Version
 
-// 1) Alle gültigen Landkreis-/Stadtkürzel aus Deiner Liste:
+// 1) Alle gültigen Landkreis-/Stadtkürzel
 const validCodes = [
   'A','AA','AB','ABG','ABI','AC','AE','AH','AIB','AIC','AK','ALF','ALZ','AM','AN','ANA','ANG',
   'ANK','AÖ','AP','APD','ARN','ART','AS','ASL','ASZ','AT','AU','AUR','AW','AZ','AZE','B','BA',
@@ -47,143 +47,182 @@ const validCodes = [
   'Y','Z','ZE','ZEL','ZI','ZIG','ZP','ZR','ZW','ZZ'
 ];
 
-// 2) Referenzen zu den Eingabefeldern
-const feldStadt      = document.getElementById('stadtcode');
-const feldBuchstaben = document.getElementById('buchstaben');
-const feldZahlen     = document.getElementById('zahlen');
-const form           = document.getElementById('config-form');
-// Konsistente Benennung:
-const btnZufall = document.getElementById('zufall-btn');
-const btnCreate = document.getElementById('create-btn');
-const img       = document.getElementById('kennzeichen-img');
+// 2) DOM-Referenzen - korrigierte ID-Namen
+const elements = {
+  stadt: document.getElementById('stadtcode'),
+  buchstaben: document.getElementById('buchstaben'),
+  zahlen: document.getElementById('zahlen'),
+  form: document.getElementById('config-form'),
+  btnCreate: document.getElementById('create-btn'),
+  btnFunny: document.getElementById('funny-btn'), // Korrigiert: funny-btn statt zufall-btn
+  img: document.getElementById('kennzeichen-img')
+};
 
-// 3) Validierungsfunktionen
-function validateStadtcode() {
-  const w = feldStadt.value.trim().toUpperCase();
-  feldStadt.value = w;
-  if (validCodes.includes(w)) {
-    feldStadt.setCustomValidity('');
-    feldStadt.style.borderColor = 'green';
-  } else {
-    feldStadt.setCustomValidity('Diese Stadt gibt es nicht!');
-    feldStadt.style.borderColor = 'red';
-    feldStadt.reportValidity();
-  }
-}
-function validateBuchstaben() {
-  const w = feldBuchstaben.value.trim().toUpperCase();
-  feldBuchstaben.value = w;
-  if (/^[A-ZÄÖÜ]{1,2}$/.test(w)) {
-    feldBuchstaben.setCustomValidity('');
-    feldBuchstaben.style.borderColor = 'green';
-  } else {
-    feldBuchstaben.setCustomValidity('1–2 Buchstaben A–Z');
-    feldBuchstaben.style.borderColor = 'red';
-  }
-}
-function validateZahlen() {
-  const w = feldZahlen.value.trim();
-  feldZahlen.value = w;
-  if (/^[0-9]{1,4}$/.test(w)) {
-    feldZahlen.setCustomValidity('');
-    feldZahlen.style.borderColor = 'green';
-  } else {
-    feldZahlen.setCustomValidity('1–4 Ziffern');
-    feldZahlen.style.borderColor = 'red';
-  }
-}
-
-// 4) Kennzeichen-Vorschau erzeugen
-function generateKennzeichen() {
-  const code = `${feldStadt.value}-${feldBuchstaben.value} ${feldZahlen.value}`;
+// 3) Validierungsfunktionen - optimiert und vereinfacht
+function validateField(field, pattern, errorMsg) {
+  const value = field.value.trim().toUpperCase();
+  field.value = value;
   
-  // Canvas-basierte Kennzeichen-Visualisierung
+  let isValid = false;
+  if (field === elements.stadt) {
+    isValid = validCodes.includes(value);
+  } else {
+    isValid = pattern.test(value);
+  }
+  
+  if (isValid) {
+    field.setCustomValidity('');
+    field.style.borderColor = '#28a745';
+  } else {
+    field.setCustomValidity(errorMsg);
+    field.style.borderColor = '#dc3545';
+  }
+  
+  return isValid;
+}
+
+// Spezifische Validierungsfunktionen
+const validateStadtcode = () => validateField(elements.stadt, null, 'Ungültiger Stadtcode!');
+const validateBuchstaben = () => validateField(elements.buchstaben, /^[A-ZÄÖÜ]{1,2}$/, '1–2 Buchstaben A–Z, Ä, Ö, Ü');
+const validateZahlen = () => validateField(elements.zahlen, /^[1-9][0-9]{0,3}$/, '1–4 Ziffern (nicht mit 0 beginnend)');
+
+// 4) Kennzeichen-Generator - optimiert
+function generateKennzeichen() {
   const canvas = document.createElement('canvas');
-  canvas.width = 520;
-  canvas.height = 110;
   const ctx = canvas.getContext('2d');
   
-  // Weißer Hintergrund
+  // Canvas-Dimensionen
+  canvas.width = 520;
+  canvas.height = 110;
+  
+  // Hintergrund
   ctx.fillStyle = 'white';
-  ctx.fillRect(0, 0, 520, 110);
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
   
-  // Schwarzer Rand
+  // Schwarzer Rahmen
   ctx.strokeStyle = 'black';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(1, 1, 518, 108);
+  ctx.lineWidth = 3;
+  ctx.strokeRect(2, 2, canvas.width - 4, canvas.height - 4);
   
-  // Blauer EU-Balken links
+  // EU-Balken
   ctx.fillStyle = '#003d82';
-  ctx.fillRect(1, 1, 45, 108);
+  ctx.fillRect(2, 2, 45, canvas.height - 4);
   
-  // EU-Sterne (vereinfacht als Punkte)
-  ctx.fillStyle = 'yellow';
-  for(let i = 0; i < 12; i++) {
-    const angle = (i * 30) * Math.PI / 180;
-    const x = 23 + Math.cos(angle) * 12;
-    const y = 35 + Math.sin(angle) * 12;
+  // EU-Sterne (vereinfacht)
+  ctx.fillStyle = '#ffdd00';
+  const centerX = 24, centerY = 35, radius = 14;
+  for (let i = 0; i < 12; i++) {
+    const angle = (i * 30 - 90) * Math.PI / 180;
+    const x = centerX + Math.cos(angle) * radius;
+    const y = centerY + Math.sin(angle) * radius;
     ctx.beginPath();
-    ctx.arc(x, y, 1.5, 0, 2 * Math.PI);
+    ctx.arc(x, y, 2, 0, 2 * Math.PI);
     ctx.fill();
   }
   
   // "D" für Deutschland
   ctx.fillStyle = 'white';
-  ctx.font = 'bold 16px Arial';
+  ctx.font = 'bold 18px Arial';
   ctx.textAlign = 'center';
-  ctx.fillText('D', 23, 85);
+  ctx.fillText('D', 24, 85);
   
   // Kennzeichen-Text
   ctx.fillStyle = 'black';
-  ctx.font = 'bold 32px Arial';
+  ctx.font = 'bold 36px monospace';
   ctx.textAlign = 'left';
   
-  // Stadtcode
-  ctx.fillText(feldStadt.value, 60, 60);
+  let x = 60;
+  const spacing = 8;
   
-  // Bindestrich und Buchstaben
-  const stadtWidth = ctx.measureText(feldStadt.value).width;
-  ctx.fillText('-' + feldBuchstaben.value, 60 + stadtWidth + 5, 60);
+  // Stadtcode
+  ctx.fillText(elements.stadt.value, x, 65);
+  x += ctx.measureText(elements.stadt.value).width + spacing;
+  
+  // Bindestrich
+  ctx.fillText('-', x, 65);
+  x += ctx.measureText('-').width + spacing;
+  
+  // Buchstaben
+  ctx.fillText(elements.buchstaben.value, x, 65);
+  x += ctx.measureText(elements.buchstaben.value).width + spacing * 2;
   
   // Zahlen
-  const buchstabenWidth = ctx.measureText('-' + feldBuchstaben.value).width;
-  ctx.fillText(feldZahlen.value, 60 + stadtWidth + buchstabenWidth + 20, 60);
+  ctx.fillText(elements.zahlen.value, x, 65);
   
-  // Bild setzen
-  img.src = canvas.toDataURL();
-  img.style.display = 'block';
+  // Bild setzen und anzeigen
+  elements.img.src = canvas.toDataURL();
+  elements.img.style.display = 'block';
+  elements.img.alt = `Kennzeichen ${elements.stadt.value}-${elements.buchstaben.value} ${elements.zahlen.value}`;
 }
 
-// 5) Event-Listener
-feldStadt.addEventListener('input', validateStadtcode);
-feldBuchstaben.addEventListener('input', validateBuchstaben);
-feldZahlen.addEventListener('input', validateZahlen);
+// 5) Zufallsgenerator - optimiert
+function generateRandomLetter() {
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  return letters[Math.floor(Math.random() * letters.length)];
+}
 
-form.addEventListener('submit', e => {
-  validateStadtcode(); validateBuchstaben(); validateZahlen();
-  if (!form.checkValidity()) {
-    e.preventDefault();
-    form.reportValidity();
-    return;
-  }
+function generateRandomNumber() {
+  return Math.floor(Math.random() * 9999) + 1; // 1-9999
+}
+
+function generateRandomCode() {
+  return validCodes[Math.floor(Math.random() * validCodes.length)];
+}
+
+// 6) Event-Handler - optimiert
+function handleSubmit(e) {
   e.preventDefault();
-  generateKennzeichen();
-});
-
-// Zufallskennzeichen - konsistente Benennung
-btnZufall.addEventListener('click', () => {
-  feldStadt.value      = validCodes[Math.floor(Math.random() * validCodes.length)];
-  feldBuchstaben.value = String.fromCharCode(65 + Math.floor(Math.random() * 26));
-  feldZahlen.value     = String(Math.floor(Math.random() * 9000) + 1);
-  validateStadtcode(); validateBuchstaben(); validateZahlen();
-  generateKennzeichen();
-});
-
-// 6) Bei Laden: prüfen, ob Felder schon Werte haben
-window.addEventListener('DOMContentLoaded', () => {
-  validateStadtcode(); validateBuchstaben(); validateZahlen();
-  if (feldStadt.value && feldBuchstaben.value && feldZahlen.value 
-      && form.checkValidity()) {
+  
+  // Alle Felder validieren
+  const isValid = [
+    validateStadtcode(),
+    validateBuchstaben(), 
+    validateZahlen()
+  ].every(Boolean);
+  
+  if (isValid) {
     generateKennzeichen();
+  } else {
+    elements.form.reportValidity();
+  }
+}
+
+function handleRandomGeneration() {
+  // Zufällige Werte setzen
+  elements.stadt.value = generateRandomCode();
+  elements.buchstaben.value = generateRandomLetter() + (Math.random() > 0.5 ? generateRandomLetter() : '');
+  elements.zahlen.value = generateRandomNumber().toString();
+  
+  // Validieren und anzeigen
+  validateStadtcode();
+  validateBuchstaben();
+  validateZahlen();
+  generateKennzeichen();
+  
+  // Visuelles Feedback
+  elements.img.classList.add('funny-result');
+  setTimeout(() => elements.img.classList.remove('funny-result'), 1000);
+}
+
+// 7) Event-Listener registrieren
+elements.stadt.addEventListener('input', validateStadtcode);
+elements.buchstaben.addEventListener('input', validateBuchstaben);
+elements.zahlen.addEventListener('input', validateZahlen);
+elements.form.addEventListener('submit', handleSubmit);
+elements.btnFunny.addEventListener('click', handleRandomGeneration); // Korrigiert!
+
+// 8) Initialisierung beim Laden
+document.addEventListener('DOMContentLoaded', () => {
+  // Initiale Validierung falls Felder bereits gefüllt sind
+  if (elements.stadt.value) validateStadtcode();
+  if (elements.buchstaben.value) validateBuchstaben();
+  if (elements.zahlen.value) validateZahlen();
+  
+  // Kennzeichen generieren falls alle Felder valide sind
+  if (elements.stadt.value && elements.buchstaben.value && elements.zahlen.value) {
+    const allValid = [validateStadtcode(), validateBuchstaben(), validateZahlen()].every(Boolean);
+    if (allValid) {
+      generateKennzeichen();
+    }
   }
 });
